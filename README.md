@@ -1,2 +1,2 @@
 # ChonkyNumber
-c++ easy to use integer arbitrary-precision arithmetic
+c++ easy to use big number class for arbitrary-precision arithmetic
