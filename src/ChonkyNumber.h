@@ -56,6 +56,14 @@ public:
 	//Change the current value with an int
 	inline void ChangeValue(int num) { std::string str = std::to_string(num); ChangeValue(str, true); }
 	
+	//Return true if number
+	inline bool IsNaN () { return !m_IsNumber; }
+	//Return true if even
+	inline bool IsEven() { return m_IsNumber && ((m_Number[m_Number.size() - 1] - 48) % 2 == 0); }
+	//Return true if odd
+	inline bool IsOdd() { return m_IsNumber && ((m_Number[m_Number.size() - 1] - 48) % 2 != 1); }
+	//Return true if prime
+	bool IsPrime() const;
 	//Set the current value as irregular or NaN, usefull when computing an irregular operation
 	void SetAsIrregular();
 	//Stringify the current value

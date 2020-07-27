@@ -85,6 +85,25 @@ void ChonkyNumber::ChangeValue(ChonkyNumber& value)
 	m_IsNumber = value.m_IsNumber;
 }
 
+bool ChonkyNumber::IsPrime() const
+{
+	if (ChonkyNumber::HasBiggerOrEqualDigits(3, *this))
+		return ChonkyNumber::HasBiggerOrEqualDigits(*this, 1);
+	else if (*this % 2 == 0 || *this % 3 == 0)
+		return false;
+
+	int i = 5;
+	while (ChonkyNumber::HasBiggerOrEqualDigits(*this, i * i))
+	{
+		if (*this % i == 0 || *this % (i + 2) == 0)
+			return false;
+		
+		i = i + 6;
+	}
+
+	return true;
+}
+
 void ChonkyNumber::SetAsIrregular()
 {
 	this->m_Number = IRREGULAR_OPERATION;
@@ -531,7 +550,7 @@ void ChonkyNumber::Module(ChonkyNumber& num, int mod, ChonkyNumber* output)
 
 	if (mod == 2)
 	{
-		output->ChangeValue(num.m_Number[num.m_Number.size() - 1] % 2);
+		output->ChangeValue((num.m_Number[num.m_Number.size() - 1] - 48) % 2);
 		return;
 	}
 
@@ -540,7 +559,7 @@ void ChonkyNumber::Module(ChonkyNumber& num, int mod, ChonkyNumber* output)
 		int sum = 0;
 		for (int i = 0; i < num.DigitsSize(); ++i)
 		{
-			sum += num.m_Number[i] - 48;
+			sum += (num.m_Number[i] - 48);
 		}
 		output->ChangeValue(sum % 3);
 		return;
@@ -548,15 +567,15 @@ void ChonkyNumber::Module(ChonkyNumber& num, int mod, ChonkyNumber* output)
 
 	if (mod == 5)
 	{
-		output->ChangeValue(num.m_Number[num.m_Number.size() - 1] % 5);
+		output->ChangeValue((num.m_Number[num.m_Number.size() - 1] - 48) % 5);
 		return;
 	}
 
 	ChonkyNumber curr = num;
 	curr.m_IsNegative = false;
-	while (curr > mod)
+	while (curr >= mod)
 	{
-		curr /= mod;
+		curr -= mod;
 	}
 
 	output->ChangeValue(curr.m_Number, false);
