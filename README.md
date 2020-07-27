@@ -42,7 +42,7 @@ Or Implicity with the = operator:
     ChonkyNumber z = 193938282897300000);  //ChonkyNumber z declared with value 193938282897300000.
     ChonkyNumber w = -900000;              //ChonkyNumber w declared with value -900000.
     
-## Operator Overload
+## Mathematical Operator Overload
 ### `operator+(const ChonkyNumber&, const ChonkyNumber&)`
 
     ChonkyNumber x(-150), y("15");
@@ -114,6 +114,166 @@ Decrement a ChonkyNumber and return a copy of it. (use prefix whenever possible)
 
     ChonkyNumber x(150);
     x--; // x = 149 and returns a copy of it
+    
+## Comparison Operators Overload
+### `operator==(const ChonkyNumber&, const ChonkyNumber&)`
+True if the first ChonkyNumber is equal to the second
+
+    ChonkyNumber x(150), y("-15");
+    x == y; // -> false
+    x == -15; // -> false
+    x == 150; // -> true
+    ChonkyNumber(150) == ChonkyNumber("-15"); // -> false
+
+### `operator>(const ChonkyNumber&, const ChonkyNumber&)`
+True if the first ChonkyNumber is major to the second
+
+    ChonkyNumber x(150), y("-15");
+    x > y; // -> true
+    x > -15; // -> true
+    x > 150; // -> false
+    ChonkyNumber(150) > ChonkyNumber("-15"); // -> true
+
+### `operator<(const ChonkyNumber&, const ChonkyNumber&)`
+True if the first ChonkyNumber is less then the second
+
+    ChonkyNumber x(150), y("-15");
+    x < y; // -> false
+    x < -15; // -> false
+    x < 150; // -> false
+    ChonkyNumber(150) < ChonkyNumber("-15"); // -> false
+
+### `operator>=(const ChonkyNumber&, const ChonkyNumber&)`
+True if the first ChonkyNumber is major or equal to the second
+
+    ChonkyNumber x(150), y("-15");
+    x >= y; // -> true
+    x >= -15; // -> true
+    x >= 150; // -> true
+    ChonkyNumber(150) >= ChonkyNumber("-15"); // -> true
+
+### `operator<=(const ChonkyNumber&, const ChonkyNumber&)`
+True if the first ChonkyNumber is less or equal of the second
+
+    ChonkyNumber x(150), y("-15");
+    x <= y; // -> false
+    x <= -15; // -> false
+    x <= 150; // -> true
+    ChonkyNumber(150) <= ChonkyNumber("-15"); // -> false
+
+## Methods
+### `void ChangeValue(...) + 7 overloads`
+Change the value of the ChonkyNumber instance.
+If the value is not correct it will be set to "NaN" (Not a Number) and the flag m_IsNumber will be set to false.
+
+    ChonkyNumber x(150), y("-15");
+    x < y; --> false
+    y.ChangeValue(151);
+    x < y; --> true
+    
+Overloads:
+
+	void ChangeValue(ChonkyNumber&);
+    void ChangeValue(std::string& str);
+	void ChangeValue(const char* c_arr);
+	void ChangeValue(std::string&& str);
+    void ChangeValue(long long int num);
+	void ChangeValue(long int num);
+	void ChangeValue(int num);
+
+### `bool IsNaN()`
+Return true if the ChonkyNumber doesn't contain a number.
+
+    ChonkyNumber x(150), y("-1-5");
+    x.IsNan(); // -> false
+    y.IsNan(); --> true
+
+### `bool IsEven()`
+Return true if the ChonkyNumber is even.
+
+    ChonkyNumber x(150), y("-15");
+    x.IsEven(); // -> true
+    y.IsEven(); --> false
+
+### `bool IsOdd()`
+Return true if the ChonkyNumber is odd.
+
+    ChonkyNumber x(150), y("-15");
+    x.IsOdd(); // -> false
+    y.IsOdd(); --> true
+
+### `bool IsPrime() const`
+Return true if the ChonkyNumber is prime.
+
+    ChonkyNumber x(150), y("-11");
+    x.IsPrime(); // -> false
+    y.IsPrime(); --> true
+    
+### `void SetAsIrregular()`
+Set the current value as NaN and the flag m_IsNumber to false.
+
+    ChonkyNumber x(150);
+    x.IsNaN(); // -> false
+    x.SetAsIrregular();
+    y.IsNaN(); --> true
+    
+### `std::string AsString() const`
+Get the string of a ChonkyNumber
+
+    ChonkyNumber x(-150);
+    x.AsString(); // -> "-150"
+    
+### `int DigitsSize() const`
+Get the number of digits of a instance
+
+    ChonkyNumber x(-15234324320);
+    x.DigitsSize(); // -> 11
+    
+### `ChonkyNumber& Negate()`
+Negate the current instance and return it's reference
+
+    ChonkyNumber x(-15234324320);
+    x.AsString(); // -> "-15234324320"
+    x.Negate();
+    x.AsString(); // -> "15234324320"
+    
+## Helper Static Functions
+### `static bool IsNumber(std::string& str)`
+Return true if the string is a number well formatted
+
+    std::string& num = "-184743";
+    ChonkyNumber::IsNumber(num); // -> true;
+    std::string& num2 = "-18474<3";
+    ChonkyNumber::IsNumber(num); // -> false;
+    
+### `static bool HasBiggerDigits(const ChonkyNumber& num1, const ChonkyNumber& num2)`
+Basically return true if the first number its major of the second one ignoring their signs.
+
+    std::string& num = "-184743";
+    std::string& num2 = "-184742";
+    //Implicit conversion from string to ChonkyNumber
+    ChonkyNumber::HasBiggerDigits(num, num2); // -> true;
+    
+### `static bool HasBiggerOrEqualDigits(const ChonkyNumber& num1, const ChonkyNumber& num2)`
+Basically return true if the first number its major or equal of the second one ignoring their signs.
+
+    std::string& num = "-184743";
+    std::string& num2 = "-184743";
+    //Implicit conversion from string to ChonkyNumber
+    ChonkyNumber::HasBiggerOrEqualDigits(num, num2); // -> true;
+
+### Mathematical static functions
+Those static functions are used under the hood for operation overloading, they do the same thing but in a different way more function driven then the operators:
+
+Most of them are self explanatory, the last parameter (the pointer) its just a container in which store the output of the operation
+
+	static void Add(ChonkyNumber&, ChonkyNumber&, ChonkyNumber*);
+	static void AddAll(std::vector<ChonkyNumber>&, ChonkyNumber*);
+	static void Subtract(ChonkyNumber&, ChonkyNumber&, ChonkyNumber*);
+	static void Multiply(ChonkyNumber&, ChonkyNumber&, ChonkyNumber*);
+	static void Divide(ChonkyNumber&, ChonkyNumber&, ChonkyNumber*);
+	static void Pow(ChonkyNumber&, int, ChonkyNumber*);
+	static void Module(ChonkyNumber&, int, ChonkyNumber*);
 
 ## Credit
 The ChonkyNumber class was created by [Ivan Lo Greco].
