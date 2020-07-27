@@ -1,3 +1,10 @@
+# ChonkyNumber
+C++ easy to use big number class for **integer arbitrary-precision arithmetic computation**.
+
+In ChonkyNumbers each mathematical operators have been overrided and can be used with other types like strings, char array, long long int, long int and int
+
+There are not limits in using ChonkyNumber if not the memory or the computational time.
+
 # Overview
 
 * [Installation](#installation)
@@ -9,14 +16,6 @@
   * [Comparison Operators Overload](#comparison-operators-overload)
   * [Methods](#methods)
   * [Helper Static Functions](#helper-static-functions)
-
-
-# ChonkyNumber
-C++ easy to use big number class for **integer arbitrary-precision arithmetic computation**.
-
-In ChonkyNumbers each mathematical operators have been overrided and can be used with other types like strings, char array, long long int, long int and int
-
-There are not limits in using ChonkyNumber if not the memory or the computational time.
 
 ## Installation
 To add ChonkyNumber to your C++ project clone this repository or download the two single files and
